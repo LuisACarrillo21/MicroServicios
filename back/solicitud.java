@@ -1,4 +1,4 @@
-package Practica_7.back;
+package back;
 
 public class solicitud {
     public final long id;

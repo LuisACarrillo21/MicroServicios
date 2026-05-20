@@ -1,4 +1,4 @@
-package Practica_7.back;
+package back;
 
 public enum asunto {
     DUDA(1), QUEJA(2), PROBLEMA(3);

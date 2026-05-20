@@ -1,4 +1,4 @@
-package Practica_7.back;
+package back;
 
 public enum tipoC {
      VIP(1), NORMAL(2), NO_CLIENTE(3);
