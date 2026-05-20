@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atención</title>
+  <link rel="manifest" href="conexion.webmanifest">
+  <meta name="theme-color" content="#111827" />
+  <link rel="stylesheet" href="estilos.css" />
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1>Atención</h1>
+      <p class="muted">PWA offline-first · API: <code id="apiBaseLabel"></code></p>
+    </div>
+    <div class="pill" id="netPill">…</div>
+  </header>
+
+  <main class="grid">
+    <section class="card">
+      <h2>Nueva solicitud</h2>
+      <div class="row">
+        <label>Tipo de cliente
+          <select id="tipoCliente">
+            <option value="VIP">VIP</option>
+            <option value="NORMAL">NORMAL</option>
+            <option value="NO_CLIENTE">NO_CLIENTE</option>
+          </select>
+        </label>
+        <label>Asunto
+          <select id="asunto">
+            <option value="PROBLEMA">PROBLEMA</option>
+            <option value="QUEJA">QUEJA</option>
+            <option value="DUDA">DUDA</option>
+          </select>
+        </label>
+      </div>
+
+      <label>Descripción
+        <textarea id="descripcion" rows="4" placeholder="Describe tu solicitud..."></textarea>
+      </label>
+
+      <div class="row">
+        <button id="btnCrear">Crear</button>
+        <button id="btnSync" class="secondary">Sincronizar</button>
+      </div>
+
+      <p class="muted" id="createHint"></p>
+    </section>
+
+    <section class="card">
+      <div class="row between">
+        <h2>Estado</h2>
+        <button id="btnRefresh" class="secondary">Actualizar</button>
+      </div>
+      <pre id="statusBox" class="pre">Cargando...</pre>
+      <p class="muted">Si no hay backend, se muestra estado local (offline).</p>
+    </section>
+
+    <section class="card span2">
+      <div class="row between">
+        <h2>Outbox (pendientes)</h2>
+        <span class="muted" id="outboxCount">0</span>
+      </div>
+      <div id="outboxList" class="list"></div>
+    </section>
+
+    <section class="card span2">
+      <div class="row between">
+        <h2>Historial</h2>
+        <span class="muted" id="historyCount">0</span>
+      </div>
+      <div id="historyList" class="list"></div>
+    </section>
+  </main>
+
+  <footer class="foot muted">
+    <span>Para que funcione el Service Worker, sirve esta carpeta con HTTP/HTTPS (no file://).</span>
+  </footer>
+
+  <script src="./config.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

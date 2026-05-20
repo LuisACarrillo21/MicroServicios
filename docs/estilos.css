@@ -1,0 +1,35 @@
+:root{
+  --bg:#0b1020; --card:#111827; --muted:#9ca3af; --text:#e5e7eb;
+  --line:#1f2937; --btn:#2563eb;
+}
+
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#070a14,var(--bg));color:var(--text)}
+.top{display:flex;align-items:center;justify-content:space-between;padding:18px;border-bottom:1px solid var(--line)}
+h1{margin:0;font-size:22px} h2{margin:0 0 10px 0;font-size:18px}
+.muted{color:var(--muted);font-size:13px;margin:6px 0 0}
+code{background:#0a0f1e;padding:2px 6px;border-radius:8px;border:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(280px,1fr));gap:14px;padding:14px 18px 22px}
+.card{background:rgba(17,24,39,.85);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 8px 25px rgba(0,0,0,.25)}
+.span2{grid-column:span 2}
+.row{display:flex;gap:10px;align-items:center;margin-top:10px}
+.between{justify-content:space-between}
+label{display:flex;flex-direction:column;gap:6px;width:100%;font-size:13px}
+select,textarea{background:#0a0f1e;border:1px solid var(--line);border-radius:10px;color:var(--text);padding:10px}
+textarea{resize:vertical}
+button{background:var(--btn);border:0;color:white;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+button.secondary{background:transparent;border:1px solid var(--line);color:var(--text)}
+.pill{padding:8px 10px;border-radius:999px;font-size:12px;border:1px solid var(--line)}
+.pill.ok{background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.35)}
+.pill.bad{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.35)}
+.pre{background:#0a0f1e;border:1px solid var(--line);border-radius:12px;padding:10px;overflow:auto;min-height:140px;font-size:12px}
+.list{display:flex;flex-direction:column;gap:8px}
+.item{border:1px solid var(--line);background:#0a0f1e;border-radius:12px;padding:10px}
+.badge{font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid var(--line)}
+.badge.problema{border-color:rgba(239,68,68,.45)}
+.badge.queja{border-color:rgba(245,158,11,.45)}
+.badge.duda{border-color:rgba(59,130,246,.45)}
+.badge.estado{border-color:rgba(156,163,175,.35);color:var(--muted)}
+small{color:var(--muted)}
+.foot{padding:10px 18px 18px;border-top:1px solid var(--line)}
+@media(max-width:820px){.grid{grid-template-columns:1fr}.span2{grid-column:span 1}}
