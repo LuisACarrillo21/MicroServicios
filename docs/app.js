@@ -22,6 +22,9 @@ const historyList = document.getElementById("historyList");
 const outboxCount = document.getElementById("outboxCount");
 const historyCount = document.getElementById("historyCount");
 
+const statusDashboard = document.getElementById("statusDashboard");
+const statusRaw = document.getElementById("statusRaw");
+
 // Service Worker
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./servicios.js").catch(console.error);
@@ -165,18 +168,125 @@ async function renderLocalStatus(note) {
 }
 
 async function refreshStatus() {
+  // Si no hay backend configurado, mostramos status local
   if (!GET_STATUS) {
     await renderLocalStatus("Sin backend configurado (modo offline).");
     return;
   }
+
   try {
     const res = await fetch(GET_STATUS, { cache: "no-store" });
-    const txt = await res.text();
-    statusBox.textContent = txt;
+    const txt = await res.text();             // leo texto para también mostrar JSON crudo
+    statusRaw.textContent = txt;
+
+    let data;
+    try { data = JSON.parse(txt); }
+    catch { throw new Error("Respuesta /status no es JSON válido"); }
+
+    renderGatewayDashboard(data);
   } catch (e) {
     await renderLocalStatus("No se pudo consultar /status. Mostrando estado local.");
   }
 }
+
+function safeNum(x){ return (typeof x === "number" && isFinite(x)) ? x : 0; }
+
+function isServiceDown(obj){
+  // En tu Gateway, si un servicio falla, suele venir como {"status":"error","message":"..."}
+  return obj && typeof obj === "object" && obj.status === "error";
+}
+
+function renderGatewayDashboard(data){
+  const services = data?.services || {};
+  const p = services.problema;
+  const q = services.queja;
+  const d = services.duda;
+
+  const svcList = [
+    { key:"problema", label:"PROBLEMA", obj:p },
+    { key:"queja", label:"QUEJA", obj:q },
+    { key:"duda", label:"DUDA", obj:d },
+  ];
+
+  // Totales (solo de los servicios que están UP)
+  let totalRec = 0, totalEnc = 0, totalCola = 0, totalAt = 0, totalDup = 0, totalInv = 0;
+
+  for (const s of svcList){
+    if (!s.obj || isServiceDown(s.obj)) continue;
+    totalRec += safeNum(s.obj.recibidas);
+    totalEnc += safeNum(s.obj.encoladas);
+    totalCola += safeNum(s.obj.cola);
+    totalAt  += safeNum(s.obj.atendidas);
+    totalDup += safeNum(s.obj.duplicadas);
+    totalInv += safeNum(s.obj.invalidas);
+  }
+
+  const time = data?.time ? new Date(data.time).toLocaleString() : "—";
+
+  statusDashboard.innerHTML = `
+    <div class="kpis">
+      <div class="cardkpi"><div class="t">Última actualización</div><div class="v" style="font-size:14px;font-weight:700">${time}</div></div>
+      <div class="cardkpi"><div class="t">Recibidas</div><div class="v">${totalRec}</div></div>
+      <div class="cardkpi"><div class="t">Encoladas</div><div class="v">${totalEnc}</div></div>
+      <div class="cardkpi"><div class="t">Atendidas</div><div class="v">${totalAt}</div></div>
+      <div class="cardkpi"><div class="t">En cola (pendientes)</div><div class="v">${totalCola}</div></div>
+      <div class="cardkpi"><div class="t">Duplicadas</div><div class="v">${totalDup}</div></div>
+      <div class="cardkpi"><div class="t">Inválidas</div><div class="v">${totalInv}</div></div>
+      <div class="cardkpi"><div class="t">Gateway</div><div class="v" style="font-size:14px;font-weight:800">${data?.gateway ? "OK" : "—"}</div></div>
+    </div>
+
+    <div class="grid3">
+      ${svcList.map(renderServiceCard).join("")}
+    </div>
+  `;
+}
+
+function renderServiceCard(s){
+  const o = s.obj;
+
+  // DOWN
+  if (!o || isServiceDown(o)){
+    const msg = o?.message ? String(o.message) : "Sin respuesta";
+    return `
+      <div class="svc">
+        <div class="head">
+          <div class="name">${s.label}</div>
+          <span class="health down">DOWN</span>
+        </div>
+        <div class="muted">${escapeHtml(msg)}</div>
+      </div>
+    `;
+  }
+
+  // UP
+  const t = o.time ? new Date(o.time).toLocaleTimeString() : "—";
+  return `
+    <div class="svc">
+      <div class="head">
+        <div>
+          <div class="name">${s.label}</div>
+          <small>Actualizado: ${t}</small>
+        </div>
+        <span class="health up">UP</span>
+      </div>
+
+      <div class="metrics">
+        ${metric("Recibidas", o.recibidas)}
+        ${metric("Encoladas", o.encoladas)}
+        ${metric("En cola", o.cola)}
+        ${metric("Atendidas", o.atendidas)}
+        ${metric("Duplicadas", o.duplicadas)}
+        ${metric("Inválidas", o.invalidas)}
+      </div>
+    </div>
+  `;
+}
+
+function metric(k, n){
+  return `<div class="metric"><div class="k">${k}</div><div class="n">${safeNum(n)}</div></div>`;
+}
+
+setInterval(() => refreshStatus(), 2000);
 
 btnCrear.addEventListener("click", async () => {
   const tipo = tipoClienteEl.value;

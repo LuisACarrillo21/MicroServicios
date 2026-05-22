@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,6 +9,7 @@
   <meta name="theme-color" content="#111827" />
   <link rel="stylesheet" href="estilos.css" />
 </head>
+
 <body>
   <header class="top">
     <div>
@@ -54,7 +56,18 @@
         <h2>Estado</h2>
         <button id="btnRefresh" class="secondary">Actualizar</button>
       </div>
-      <pre id="statusBox" class="pre">Cargando...</pre>
+      <div class="row between">
+        <h2>Estado</h2>
+        <button id="btnRefresh" class="secondary">Actualizar</button>
+      </div>
+
+      <div id="statusDashboard" class="dash"></div>
+
+      <details class="raw">
+        <summary>Ver JSON crudo</summary>
+        <pre id="statusRaw" class="pre"></pre>
+      </details>
+      <p class="muted">Fuente: <code>GET /status</code> (Gateway)</p>
       <p class="muted">Si no hay backend, se muestra estado local (offline).</p>
     </section>
 
@@ -82,4 +95,5 @@
   <script src="./config.js"></script>
   <script src="./app.js"></script>
 </body>
+
 </html>
