@@ -19,7 +19,7 @@ public class Gateway {
 
     private static final String PROBLEMA_BASE = System.getenv().getOrDefault("PROBLEMA_URL", "http://localhost:5101");
     private static final String QUEJA_BASE    = System.getenv().getOrDefault("QUEJA_URL", "http://localhost:5102");
-    private static final String DUDA_BASE     System.getenv().getOrDefault("DUDA_URL", "http://localhost:5103");
+    private static final String DUDA_BASE  =   System.getenv().getOrDefault("DUDA_URL", "http://localhost:5103");
 
     private static final HttpClient http = HttpClient.newBuilder().build();
 
