@@ -23,20 +23,20 @@ jobs:
 
       - name: Construir y subir Gateway
         run: |
-          docker build -t acrsistemadoistribuido.azurecr.io/gateway:v2 -f Dockerfile.gateway .
-          docker push acrsistemadoistribuido.azurecr.io/gateway:v2
+          docker build -t acrsistemadoistribuido.azurecr.io/gateway:v3 -f Dockerfile.gateway .
+          docker push acrsistemadoistribuido.azurecr.io/gateway:v3
 
       - name: Construir y subir Problema
         run: |
-          docker build -t acrsistemadoistribuido.azurecr.io/problema:v2 -f Dockerfile.problema .
-          docker push acrsistemadoistribuido.azurecr.io/problema:v2
+          docker build -t acrsistemadoistribuido.azurecr.io/problema:v3 -f Dockerfile.problema .
+          docker push acrsistemadoistribuido.azurecr.io/problema:v3
 
       - name: Construir y subir Queja
         run: |
-          docker build -t acrsistemadoistribuido.azurecr.io/queja:v2 -f Dockerfile.queja .
-          docker push acrsistemadoistribuido.azurecr.io/queja:v2
+          docker build -t acrsistemadoistribuido.azurecr.io/queja:v3 -f Dockerfile.queja .
+          docker push acrsistemadoistribuido.azurecr.io/queja:v3
 
       - name: Construir y subir Duda
         run: |
-          docker build -t acrsistemadoistribuido.azurecr.io/duda:v2 -f Dockerfile.duda .
-          docker push acrsistemadoistribuido.azurecr.io/duda:v2
+          docker build -t acrsistemadoistribuido.azurecr.io/duda:v3 -f Dockerfile.duda .
+          docker push acrsistemadoistribuido.azurecr.io/duda:v3
