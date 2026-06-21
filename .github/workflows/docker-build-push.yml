@@ -1,0 +1,42 @@
+name: Build and Push Docker Images
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Login en Azure Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: acrsistemadoistribuido.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Construir y subir Gateway
+        run: |
+          docker build -t acrsistemadoistribuido.azurecr.io/gateway:v1 -f Dockerfile.gateway .
+          docker push acrsistemadoistribuido.azurecr.io/gateway:v1
+
+      - name: Construir y subir Problema
+        run: |
+          docker build -t acrsistemadoistribuido.azurecr.io/problema:v1 -f Dockerfile.problema .
+          docker push acrsistemadoistribuido.azurecr.io/problema:v1
+
+      - name: Construir y subir Queja
+        run: |
+          docker build -t acrsistemadoistribuido.azurecr.io/queja:v1 -f Dockerfile.queja .
+          docker push acrsistemadoistribuido.azurecr.io/queja:v1
+
+      - name: Construir y subir Duda
+        run: |
+          docker build -t acrsistemadoistribuido.azurecr.io/duda:v1 -f Dockerfile.duda .
+          docker push acrsistemadoistribuido.azurecr.io/duda:v1
