@@ -8,4 +8,4 @@ RUN javac *.java
 
 EXPOSE 8080
 
-CMD ["java", "Gateway"]
+CMD ["java", "microservicio.Gateway"]
