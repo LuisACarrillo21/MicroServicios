@@ -1,5 +1,5 @@
 // Si lo dejas vacío, la PWA funciona offline
 // Para usar backend local: "http://localhost:8080"
 window.APP_CONFIG = {
-  API_BASE: "http://localhost:5100"
+  API_BASE: "https://ca-gateway-sd.calmcoast-a44b42e6.canadacentral.azurecontainerapps.io"
 };
