@@ -3,5 +3,5 @@
 window.APP_CONFIG = {
   //API_BASE: "https://ca-gateway-sd.calmcoast-a44b42e6.canadacentral.azurecontainerapps.io"
   //API_BASE: "https://cr-gateway-sd-850678681976.us-central1.run.app"
-  API_BASE: "http://gateway-aws-practica10.duckdns.org:8080/status"
+  API_BASE: "http://gateway-aws-practica10.duckdns.org:8080"
 };
